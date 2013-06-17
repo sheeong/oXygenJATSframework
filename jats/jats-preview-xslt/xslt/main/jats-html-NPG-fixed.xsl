@@ -4049,6 +4049,15 @@ or pipeline) parameterized.
     </xsl:if>
   </xsl:template>
 
+  <xsl:template match="etal">
+  <i>et al.</i>
+  </xsl:template>
+  <xsl:template match="source">
+  <i><xsl:apply-templates/></i>
+  </xsl:template>
+  <xsl:template match="volume">
+  <b><xsl:apply-templates/></b>
+  </xsl:template>
 
 <!-- ============================================================= -->
 <!--  End stylesheet                                               -->

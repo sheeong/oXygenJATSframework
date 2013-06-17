@@ -27,7 +27,6 @@ import net.sf.saxon.s9api.XsltExecutable;
 import net.sf.saxon.s9api.XsltTransformer;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -53,10 +52,10 @@ import org.xml.sax.SAXException;
 public class TestNLM485 {
 
 	final static private String _topDir= "jats/jats-preview-xslt/xslt/";
-	final static private String _citationXslt =_topDir.concat("citations-prep/jats-PMCcit.xsl");
-	final static private String _xsltTable = _topDir.concat("oasis-tables/oasis-table-html-NPG-fixed.xsl");
+	final static public String _citationXslt =_topDir.concat("citations-prep/jats-PMCcit.xsl");
+	final static public String _xsltTable = _topDir.concat("oasis-tables/oasis-table-html-NPG-fixed.xsl");
 	//final static private String _xsltOTable = _topDir.concat("oasis-tables/oasis-table-html.xsl");
-	final static private String _xsltNPG  = _topDir.concat("main/jats-html-NPG-fixed.xsl");
+	final static public String _xsltNPG  = _topDir.concat("main/jats-html-NPG-fixed.xsl");
 
 	final static private File _xslts[] = {new File(_citationXslt), new File(_xsltTable), new File(_xsltNPG)};
 
@@ -91,8 +90,7 @@ public class TestNLM485 {
 		}
 	}
 	
-	@Ignore
-	@Test
+	//@Test
 	public void testSimple() {
 		byte xmlData[] = getFile("jats/jats-preview-xslt/test/xml/nutd201228a.xml");
 		testTable(xmlData, _xsltTable, null);
@@ -114,13 +112,14 @@ public class TestNLM485 {
 	}
 
 	
+	
 	/**
 	 * 
 	 * @param xmlData
 	 * @param xslt
 	 * @param sb
 	 */
-	private void testTable(byte xmlData[], String xslt, StringBuffer sb) {
+	public static void testTable(byte xmlData[], String xslt, StringBuffer sb) {
 		String citXsl = "<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='2.0'>"+
 				"<xsl:import href='"+_citationXslt+"'/>"+
 				"<xsl:output method='xml' indent='no'  doctype-public='-//NLM//DTD JATS (Z39.96) Journal Publishing DTD with OASIS Tables v1.0 20120330//EN' doctype-system='JATS-journalpublishing-oasis-article1.dtd'/>"+
@@ -141,7 +140,7 @@ public class TestNLM485 {
 		long now2 = System.currentTimeMillis();
 		System.out.printf("first transformation took: %d\n", now2 - now);
 		//if (sb != null) sb.append(new String(result));
-		writeDocument("c:/temp/t2.xml", result);
+		writeDocument("c:/temp/t1.xml", result);
 		
 		byte html[] = convert(result, xsl2.getBytes());
 		System.out.printf("second transformation took: %d\n", System.currentTimeMillis() - now2);
@@ -450,7 +449,7 @@ public class TestNLM485 {
 	}
 
 	
-	private static byte[] getFile(String filename) {
+	public static byte[] getFile(String filename) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
 			DataInputStream dis = new DataInputStream(new FileInputStream(filename));
@@ -470,7 +469,7 @@ public class TestNLM485 {
 		return baos.toByteArray();
 	}
 
-	private void writeDocument(String filename, String content) {
+	static public void writeDocument(String filename, String content) {
 		try {
 			BufferedWriter bfw = new BufferedWriter(new FileWriter(filename));
 			bfw.write(content);
@@ -486,11 +485,11 @@ public class TestNLM485 {
 	 * @param filename
 	 * @param content
 	 */
-	private void writeDocument(String filename, byte content[]) {
+	static public void writeDocument(String filename, byte content[]) {
 		writeDocument(filename, new String(content));
 	}
 
-	private static byte[] convert(byte xml[], byte xslt[]) {
+	public static byte[] convert(byte xml[], byte xslt[]) {
 		try {
 			XsltExecutable template = _comp.compile(new StreamSource(new ByteArrayInputStream(xslt)));
 			return convert(xml, template);
@@ -527,7 +526,7 @@ public class TestNLM485 {
 		return baos.toByteArray();
 	}
 
-	private byte[] convert(byte[] xmlData, File... xslts) {
+	static public byte[] convert(byte[] xmlData, File... xslts) {
 		if (xslts == null || xslts.length==0) return null;
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
