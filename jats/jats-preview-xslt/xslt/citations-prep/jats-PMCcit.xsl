@@ -328,7 +328,6 @@
     </xsl:copy>
   </xsl:template>
 
-
   <!-- If it fails to match the foregoing template, mixed-citation is
        treated like element-citation -->
   <xsl:template mode="as-is"
@@ -1062,6 +1061,7 @@
                   preceding-sibling::article-title">
       <xsl:text>In: </xsl:text>
     </xsl:if>
+
     <xsl:apply-templates/>
       <xsl:choose>
         <xsl:when test="following-sibling::*[1]/self::source">
@@ -1265,6 +1265,12 @@
   </xsl:template>
 
   
+  <xsl:template mode="format" match="mixed-citation/source | mixed-citation/volume | mixed-citation/etal | article-meta/volume">
+    <xsl:copy>
+      <xsl:apply-templates select="@*|node()"/>
+    </xsl:copy>
+  </xsl:template>
+
   <xsl:template match="person-group" mode="format">
     <xsl:apply-templates select="*"/>
   </xsl:template>
