@@ -2903,7 +2903,7 @@ or pipeline) parameterized.
 
 
   <xsl:template match="sc">
-    <span style="font-variant: small-caps">
+    <span style="font-variant: small-caps; font-size: 65%">
       <xsl:apply-templates/>
     </span>
   </xsl:template>
@@ -3096,15 +3096,14 @@ or pipeline) parameterized.
   <xsl:template match="fn/p">
     <p>
       <xsl:call-template name="assign-id"/>
-      <xsl:if test="not(preceding-sibling::p)">
+      <xsl:if test="../label/sup"> <!-- NLM-519 -->
         <!-- drop an inline label text into the first p -->
-        <xsl:apply-templates select="parent::fn" mode="label-text"/>
+        <xsl:apply-templates select="../label/sup"/>
         <xsl:text> </xsl:text>
       </xsl:if>
       <xsl:apply-templates/>
     </p>
   </xsl:template>
-  
   
   <!-- ============================================================= -->
   <!--  MODE 'label-text'

@@ -218,7 +218,7 @@
 		<xsl:param name="align" />
 		<xsl:param name="colspec" />
 		<xsl:choose>
-			<xsl:when test="$align = 'char'">
+			<xsl:when test="$align = 'char' and 1=count(node())"> <!-- NLM-519 mixed content cannot be char aligned -->
 				<!--xsl:variable name="colspec" select="m:colspec-for-entry(.)"/ -->
 				<!--xsl:variable name="char" select="(@char/string(.),$colspec/@char/string(.),'')[1]"/ -->
 				<xsl:variable name="char"
